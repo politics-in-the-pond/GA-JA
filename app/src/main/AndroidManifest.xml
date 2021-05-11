@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gaja">
+        <activity android:name=".PostActivity"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/Theme.Gaja.NoActionBar"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
