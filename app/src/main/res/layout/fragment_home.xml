@@ -29,6 +29,12 @@
             app:layout_constraintTop_toBottomOf="@+id/searchView">
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/total_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체" />
+
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/eat_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

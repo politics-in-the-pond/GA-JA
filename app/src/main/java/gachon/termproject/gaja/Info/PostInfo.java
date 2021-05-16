@@ -12,12 +12,13 @@ public class PostInfo implements Serializable {
     private String userName;
     private Date createdAt;
     private long peopleNeed;
+    private long currentNumOfPeople;
     private String postId;
     private ArrayList<String> participatingUserId;
     private String category;
 
     public PostInfo (String titleImage, String title, String content, String publisher, String userName,
-    Date createdAt , long peopleNeed, String postId, ArrayList<String> participatingUserId, String category){
+    Date createdAt , long peopleNeed, long currentNumOfPeople, String postId, ArrayList<String> participatingUserId, String category){
         this.titleImage = titleImage;
         this.title = title;
         this.content = content;
@@ -25,6 +26,7 @@ public class PostInfo implements Serializable {
         this.userName = userName;
         this.createdAt = createdAt;
         this.peopleNeed = peopleNeed;
+        this.currentNumOfPeople = currentNumOfPeople;
         this.postId = postId;
         this.participatingUserId = participatingUserId;
         this.category = category;
@@ -44,6 +46,8 @@ public class PostInfo implements Serializable {
     public void setCreatedAt(Date publisher){this.createdAt = createdAt;}
     public long getPeopleNeed(){ return this.peopleNeed;}
     public void setPeopleNeed(long peopleNeed){this.peopleNeed = peopleNeed;}
+    public long getCurrentNumOfPeople(){ return this.currentNumOfPeople;}
+    public void setCurrentNumOfPeople(long currentNumOfPeople){this.currentNumOfPeople = currentNumOfPeople;}
     public String getPostId(){ return this.postId;}
     public void setPostId(String title){this.postId = postId;}
     public ArrayList<String> getParticipatingUserId(){ return  this.participatingUserId;}

@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -43,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import gachon.termproject.gaja.Info.PostInfo;
+import gachon.termproject.gaja.Info.MemberInfo;
 import gachon.termproject.gaja.MainActivity;
 import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.gallery.GalleryActivity;
@@ -59,7 +55,7 @@ public class WritingPostActivity extends AppCompatActivity {
     private EditText editTitle;
     private EditText editContent;
     private Spinner numberOfPeopleSpinner;
-    private Long numberOfPeople;
+    private String numberOfPeople;
     private Spinner categorySpinner;
     private String category;
 
@@ -71,19 +67,21 @@ public class WritingPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_writingpost);
 
         loaderLayout = findViewById(R.id.loaderLayout);
-        findViewById(R.id.writingConfirmBtn).setOnClickListener(onClickListener);
-        findViewById(R.id.goBackBtn).setOnClickListener(onClickListener);
         addTitleImageBtn = findViewById(R.id.addTitleImageBtn);
         addTitleImageBtn.setOnClickListener(onClickListener);
+        findViewById(R.id.confirmBtn).setOnClickListener(onClickListener);
+        findViewById(R.id.goBackBtn).setOnClickListener(onClickListener);
 
+
+        numberOfPeopleSpinner = (Spinner) findViewById(R.id.numberOfPeopleSpinner);
         //태그 카테고리 스피너에서 값을 얻어옴
         numberOfPeopleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numberOfPeople = (Long) parent.getItemAtPosition(position);
+                numberOfPeople = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -92,6 +90,7 @@ public class WritingPostActivity extends AppCompatActivity {
             }
         });
 
+        categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
         //태그 카테고리 스피너에서 값을 얻어옴
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -114,7 +113,7 @@ public class WritingPostActivity extends AppCompatActivity {
                 case R.id.addTitleImageBtn:
                     myStartActivity(GalleryActivity.class,"image", 0);
                     break;
-                case R.id.writingConfirmBtn:
+                case R.id.confirmBtn:
                     postUpload();
                     break;
                 case R.id.goBackBtn:
@@ -134,6 +133,7 @@ public class WritingPostActivity extends AppCompatActivity {
                     //타이틀 이미지 관련 코드
                     //타이틀 이미지를 이미지 버튼에 출력
                     String profilePath = data.getStringExtra("profilePath");
+                    titleImagePath = profilePath;
                     Glide.with(this).load(profilePath).override(1000).into(addTitleImageBtn);
                 }
                 break;
@@ -149,8 +149,10 @@ public class WritingPostActivity extends AppCompatActivity {
         final String content = ((EditText)findViewById(R.id.editContent)).getText().toString();
         //타이틀이미지 경로 저장.
         String[] titleArray = titleImagePath.split("\\.");
+
+        final long number = Long.parseLong(numberOfPeople);
         //만약 제목, 내용 모두 공백이 아닐경우 업로드 실행.
-        if(title.length() > 0 && content.length() > 0 && titleArray.length > 0 && numberOfPeople > 1){
+        if(title.length() > 0 && content.length() > 0 && titleArray.length > 0 && number > 1){
             //업로드를 하고있는 것을 보여주기 위한 로딩창 띄움.
             loaderLayout.setVisibility(View.VISIBLE);
 
@@ -198,12 +200,8 @@ public class WritingPostActivity extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot document = task.getResult();
                                                     if (document.exists()) {
-                                                        MemberInfo userInfo = new MemberInfo(
+                                                        MemberInfo memberInfo = new MemberInfo(
                                                                 document.getData().get("name").toString(),
-                                                                document.getData().get("phoneNumber").toString(),
-                                                                document.getData().get("adress").toString(),
-                                                                document.getData().get("date").toString(),
-                                                                document.getData().get("photoUrl").toString(),
                                                                 document.getData().get("nickname").toString(),
                                                                 (ArrayList<String>) document.getData().get("participatingPost")
                                                         );
@@ -211,7 +209,7 @@ public class WritingPostActivity extends AppCompatActivity {
                                                         DocumentReference documentReference = firebaseFirestore.collection("recipePost").document();
                                                         //recipepostinfo 형식으로 저장.
                                                         PostInfo postInfo = new PostInfo(titleImagePath, title, content,
-                                                                user.getUid(), userInfo.getName(), new Date(),numberOfPeople , documentReference.getId(), participatingUserId, category);
+                                                                user.getUid(), memberInfo.getNickName(), new Date(), number ,1, documentReference.getId(), participatingUserId, category);
                                                         //업로드 실행
                                                         dbUploader(documentReference, postInfo);
                                                     } else {
