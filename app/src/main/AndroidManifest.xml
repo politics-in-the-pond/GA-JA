@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Gaja" >
+        android:theme="@style/Theme.Gaja">
         <activity android:name=".post.PostInformationActivity" />
         <activity android:name=".gallery.GalleryActivity"/>
         <activity android:name=".login.LoginActivity" />
