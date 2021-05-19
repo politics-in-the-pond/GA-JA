@@ -1,22 +1,19 @@
 package gachon.termproject.gaja.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 import gachon.termproject.gaja.R;
 
 public class AfterLoginTest extends AppCompatActivity {
 
-    TextView test;
     public FirebaseUser user;
+    TextView test;
     private FirebaseAuth mAuth;
 
     @Override

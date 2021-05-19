@@ -1,17 +1,13 @@
 package gachon.termproject.gaja;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,31 +19,30 @@ public class MainActivity extends AppCompatActivity {
    /* FragmentManager manager;
     FragmentTransaction ft;*/
 
+    Button btn_goP;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private HomeFragment homeFragment = new HomeFragment();
     private MypageFragment MyPageFragment = new MypageFragment();
-    private AlarmFragment AlarmFragment=new AlarmFragment();
-
-    Button btn_goP;
+    private AlarmFragment AlarmFragment = new AlarmFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // manager = getSupportFragmentManager();
+        // manager = getSupportFragmentManager();
 
        /* fragmentBuy = new BuyFragment();
         fragmentEat= new EatFragment();
         fragmentTotal = new TotalFragment();*/
 
-       // ft = manager.beginTransaction();
+        // ft = manager.beginTransaction();
 
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
-        BottomNavigationView bottomNavigationView  = findViewById(R.id.nav_view);
-        bottomNavigationView .setOnNavigationItemSelectedListener(new ItemSelectedListener());
+        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
 
         // ft.add(R.id.fragment_container, fragmentTotal).addToBackStack(null).commit();
 
@@ -78,13 +73,12 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-            switch(menuItem.getItemId())
-            {
+            switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     transaction.replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
                     break;
                 case R.id.navigation_alarm:
-                    transaction.replace(R.id.nav_host_fragment,AlarmFragment).commitAllowingStateLoss();
+                    transaction.replace(R.id.nav_host_fragment, AlarmFragment).commitAllowingStateLoss();
                     break;
 
                 case R.id.navigation_mypage:

@@ -17,16 +17,15 @@
         android:theme="@style/Theme.Gaja" >
         <activity android:name=".post.PostInformationActivity" />
         <activity android:name=".gallery.GalleryActivity"/>
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.AfterLoginTest"/>
+        <activity android:name=".login.RegisterActivity"/>
+        <activity android:name=".login.SplashActivity" android:theme="@style/FullScreenTheme">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".login.AfterLoginTest"/>
-        <activity android:name=".login.RegisterActivity"/>
-        <activity android:name=".login.SplashActivity"/>
         <activity android:name=".ui.writingPost.WritingPostActivity"/>
         <activity android:name=".MainActivity" >
 

@@ -1,19 +1,19 @@
 package gachon.termproject.gaja.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import gachon.termproject.gaja.MainActivity;
 import gachon.termproject.gaja.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent afterLoginIntent = new Intent(getApplicationContext(), AfterLoginTest.class);
+                            Intent afterLoginIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(afterLoginIntent); //AfterLoginTest로 이동, 나중에 다른 액티비티로 바꿔주세요
                             finish();
                         } else {

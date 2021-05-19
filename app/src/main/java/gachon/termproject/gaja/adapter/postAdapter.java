@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -21,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import gachon.termproject.gaja.Info.PostInfo;
-import gachon.termproject.gaja.post.PostInformationActivity;
 import gachon.termproject.gaja.R;
+import gachon.termproject.gaja.post.PostInformationActivity;
 
 import static gachon.termproject.gaja.Util.isStorageUrl;
 
@@ -33,35 +32,27 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postViewHolder
     private ArrayList<PostInfo> mDataset;
     private Activity activity;
 
-    static class postViewHolder extends RecyclerView.ViewHolder{
-        public CardView cardView;
-        postViewHolder(Activity activity, CardView v, PostInfo postInfo){
-            super(v);
-            cardView = v;
-        }
-    }
-
-    public postAdapter(Activity activity, ArrayList<PostInfo> recipeDataset){
+    public postAdapter(Activity activity, ArrayList<PostInfo> recipeDataset) {
         mDataset = recipeDataset;
         this.activity = activity;
     }
 
     @Override
-    public int getItemViewType(int position){
+    public int getItemViewType(int position) {
         return position;
     }
 
     //카드뷰를 생성하여 그곳에 데이터를 집어넣어 완성시킴
     @NotNull
     @Override
-    public postAdapter.postViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType){
-        CardView cardView =(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent,false);
+    public postAdapter.postViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
         final postViewHolder postViewHolder = new postViewHolder(activity, cardView, mDataset.get(viewType));
         //카드뷰를 클릭할경우, 그 게시글로 activity가 넘어감.
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(activity, PostInformationActivity.class);
+                Intent intent = new Intent(activity, PostInformationActivity.class);
                 intent.putExtra("PostInfo", mDataset.get(postViewHolder.getAdapterPosition()));
                 activity.startActivity(intent);
             }
@@ -72,7 +63,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postViewHolder
     //카드뷰 안에 들어갈 목록
     //레시피게시판 게시글 카드뷰에는 제목, 타이틀 이미지 , 작성자, 작성 날짜, 추천수가 저장되어 띄워짐.
     @Override
-    public void onBindViewHolder(@NotNull final postViewHolder holder, int position){
+    public void onBindViewHolder(@NotNull final postViewHolder holder, int position) {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
@@ -80,7 +71,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postViewHolder
         cardView.setLayoutParams(layoutParams);
         ImageView titleImage = cardView.findViewById(R.id.post_thumbnail);
         String titleImagePath = mDataset.get(position).getTitleImage();
-        if(isStorageUrl(titleImagePath)){
+        if (isStorageUrl(titleImagePath)) {
             Glide.with(activity).load(titleImagePath).override(1000).thumbnail(0.1f).into(titleImage);
         }
         TextView title = cardView.findViewById(R.id.tn_postTitle);
@@ -99,8 +90,17 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postViewHolder
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mDataset.size();
+    }
+
+    static class postViewHolder extends RecyclerView.ViewHolder {
+        public CardView cardView;
+
+        postViewHolder(Activity activity, CardView v, PostInfo postInfo) {
+            super(v);
+            cardView = v;
+        }
     }
 
 }

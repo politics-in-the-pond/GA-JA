@@ -1,6 +1,5 @@
 package gachon.termproject.gaja.login;
 
-import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;

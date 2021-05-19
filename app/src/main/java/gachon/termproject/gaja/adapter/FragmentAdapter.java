@@ -18,19 +18,22 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     }
 
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
+
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
 
     @Override
-    public Fragment getItem(int position) { return mFragmentList.get(position); }
+    public Fragment getItem(int position) {
+        return mFragmentList.get(position);
+    }
 
     @Override
     public int getCount() {
-        return mFragmentList.size() ;
+        return mFragmentList.size();
     }
 }
