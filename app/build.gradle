@@ -58,6 +58,8 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     //파이어베이스 선언
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     implementation 'com.google.firebase:firebase-auth:20.0.4'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')

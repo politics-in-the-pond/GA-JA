@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ActionBar actionbar = getSupportActionBar();
-        actionbar.hide();
 
         ActivityCompat.requestPermissions(LoginActivity.this,
                 new String[]{"android.permission.INTERNET"}, 0);
