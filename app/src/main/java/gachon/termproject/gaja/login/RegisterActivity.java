@@ -70,28 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!email.getText().toString().equals("") && !pw.getText().toString().equals("") && !nickName.getText().toString().equals("")) {
                     registerUser(email.getText().toString(), pw.getText().toString());
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    ArrayList<String> participatingPost = new ArrayList<>();
-                    MemberInfo memberInfo = new MemberInfo(user.getUid(),nickName.getText().toString(),participatingPost);
-                    db.collection("users").document(user.getUid()).set(memberInfo)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    showToast(RegisterActivity.this,"회원정보 등록을 성공하였습니다.");
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    showToast(RegisterActivity.this,"회원정보 등록에 실패하였습니다.");
-                                    Log.w(TAG, "Error writing document", e);
-                                }
-                            });
-
-                    finish(); //로그인창으로 돌아가기
                 } else {
                     Toast.makeText(getApplicationContext(), "이메일 혹은 비밀번호 혹은 이름이 공백입니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -113,11 +91,30 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user = mAuth.getCurrentUser();
-                            user.updateEmail(email);
-                            Toast.makeText(getApplicationContext(), "회원가입 성공, 다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            ArrayList<String> participatingPost = new ArrayList<>();
+                            MemberInfo memberInfo = new MemberInfo(user.getUid(),nickName.getText().toString(),participatingPost);
+                            db.collection("users").document(user.getUid()).set(memberInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            showToast(RegisterActivity.this,"회원정보 등록을 성공하였습니다.");
+                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            showToast(RegisterActivity.this,"회원정보 등록에 실패하였습니다.");
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                            Toast.makeText(RegisterActivity.this, "회원가입 성공, 다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
                             //액티비티 이동
                         } else {
-                            Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

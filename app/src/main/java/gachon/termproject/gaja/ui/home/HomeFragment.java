@@ -27,10 +27,8 @@ public class HomeFragment extends Fragment {
         adapter =  new FragmentAdapter(getChildFragmentManager(), 1);
         root.findViewById(R.id.writingPostBtn).setOnClickListener(onClickListener);
         vp=(ViewPager)root.findViewById(R.id.share_need_container);
-        adapter.addFragment(new TotalFragment(), "전체");
-        adapter.addFragment(new BuyFragment(), "같이 먹어요");
-        adapter.addFragment(new EatFragment(), "같이 사요");
-        vp.setAdapter(adapter);
+        setupViewPager(vp);
+
         TabLayout tab=root.findViewById(R.id.tabLayout);
         tab.setupWithViewPager(vp);
 
@@ -56,4 +54,10 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void setupViewPager(ViewPager vp) {
+        adapter.addFragment(new TotalFragment(), "전체");
+        adapter.addFragment(new BuyFragment(), "같이 사요");
+        adapter.addFragment(new EatFragment(), "같이 먹어요");
+        vp.setAdapter(adapter);
+    }
 }

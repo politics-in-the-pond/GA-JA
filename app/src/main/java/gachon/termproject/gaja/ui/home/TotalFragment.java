@@ -38,6 +38,7 @@ public class TotalFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     //레시피 글을 카드뷰로 띄워주기 위한 리사이클러 뷰 선언
     private RecyclerView totalRecyclerView;
+    View rootView;
 
     public static TotalFragment newInstance(){
         TotalFragment TotalFragment=new TotalFragment();
@@ -49,7 +50,7 @@ public class TotalFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_total, container, false);
+        rootView = inflater.inflate(R.layout.fragment_total, container, false);
 
         firebaseFirestore= FirebaseFirestore.getInstance();
 

@@ -33,6 +33,7 @@ public class BuyFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     //레시피 글을 카드뷰로 띄워주기 위한 리사이클러 뷰 선언
     private RecyclerView buyRecyclerView;
+    View rootView;
 
     public static BuyFragment newInstance(){
         BuyFragment BuyFragment=new BuyFragment();
@@ -44,7 +45,7 @@ public class BuyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_buy, container, false);
+        rootView = inflater.inflate(R.layout.fragment_buy, container, false);
 
         firebaseFirestore= FirebaseFirestore.getInstance();
 
@@ -52,7 +53,6 @@ public class BuyFragment extends Fragment {
         buyRecyclerView = (RecyclerView)rootView.findViewById(R.id.buy_List);
         buyRecyclerView.setHasFixedSize(true);
         buyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
 
         return rootView;
     }

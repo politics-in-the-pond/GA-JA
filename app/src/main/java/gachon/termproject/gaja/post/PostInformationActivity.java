@@ -200,8 +200,8 @@ public class PostInformationActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             MemberInfo memberInfo = new MemberInfo(
-                                                    document.getData().get("name").toString(),
-                                                    document.getData().get("nickname").toString(),
+                                                    document.getData().get("id").toString(),
+                                                    document.getData().get("nickName").toString(),
                                                     (ArrayList<String>) document.getData().get("participatingPost")
                                             );
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());

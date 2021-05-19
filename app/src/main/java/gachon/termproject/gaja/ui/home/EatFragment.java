@@ -39,6 +39,8 @@ public class EatFragment extends Fragment {
     //레시피 글을 카드뷰로 띄워주기 위한 리사이클러 뷰 선언
     private RecyclerView eatRecyclerView;
 
+    View rootView;
+
     public static EatFragment newInstance(){
         EatFragment EatFragment=new EatFragment();
         return EatFragment;
@@ -48,7 +50,7 @@ public class EatFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_eat, container, false);
+        rootView = inflater.inflate(R.layout.fragment_eat, container, false);
 
 
         firebaseFirestore= FirebaseFirestore.getInstance();
