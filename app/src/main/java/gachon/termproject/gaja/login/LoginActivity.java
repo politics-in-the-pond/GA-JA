@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ActionBar actionbar = getSupportActionBar();
+        actionbar.hide();
 
         if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                 autoLoginProvider.AutoLoginRemover();
                             }
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginBridge.class);
                             startActivity(intent); //메인으로 이동
                             finish();
                         } else {
