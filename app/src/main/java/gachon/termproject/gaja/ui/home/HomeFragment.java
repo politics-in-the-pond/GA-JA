@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment{
         tab.setupWithViewPager(vp);
 
         mSearchView=root.findViewById(R.id.searchView);
+        mSearchView.setMaxWidth( Integer.MAX_VALUE );
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

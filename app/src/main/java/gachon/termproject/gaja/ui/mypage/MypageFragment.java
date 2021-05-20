@@ -1,10 +1,12 @@
 package gachon.termproject.gaja.ui.mypage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -35,6 +37,7 @@ import gachon.termproject.gaja.Info.PostInfo;
 import gachon.termproject.gaja.MainActivity;
 import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.adapter.FragmentAdapter;
+import gachon.termproject.gaja.login.LoginActivity;
 import gachon.termproject.gaja.ui.home.BuyFragment;
 import gachon.termproject.gaja.ui.home.EatFragment;
 import gachon.termproject.gaja.ui.home.TotalFragment;
@@ -48,6 +51,7 @@ public class MypageFragment extends Fragment {
     private TextView email;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseUser user;
+    private Button btn;
 
     View view;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,6 +59,20 @@ public class MypageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_mypage, container, false);
         firebaseFirestore = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        btn = view.findViewById(R.id.logout_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //logout method
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 이전 액티비티들을 모두 kill
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
         return view;
     }
 

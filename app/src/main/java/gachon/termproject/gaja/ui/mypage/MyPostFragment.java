@@ -28,8 +28,7 @@ import java.util.Date;
 
 import gachon.termproject.gaja.Info.PostInfo;
 import gachon.termproject.gaja.R;
-import gachon.termproject.gaja.adapter.postAdapter;
-import gachon.termproject.gaja.ui.home.BuyFragment;
+import gachon.termproject.gaja.adapter.post_mypage_Adapter;
 
 public class MyPostFragment extends Fragment {
     //파이어베이스 선언
@@ -99,7 +98,7 @@ public class MyPostFragment extends Fragment {
                             }
 
                             //recipeAdapter를 이용하여 리사이클러 뷰로 내용 띄움.
-                            RecyclerView.Adapter mAdapter = new postAdapter(getActivity(), postList);
+                            RecyclerView.Adapter mAdapter = new post_mypage_Adapter(getActivity(), postList);
                             myPostRecyclerView.setAdapter(mAdapter);
                         } else {
                             Log.d("로그: ", "Error getting documents: ", task.getException());

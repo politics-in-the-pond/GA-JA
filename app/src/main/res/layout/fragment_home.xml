@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/homeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,19 +18,28 @@
 
         <SearchView
             android:id="@+id/searchView"
+            android:layout_toLeftOf="@+id/writingPostBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"></SearchView>
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        </SearchView>
+
+
+        <Button
             android:id="@+id/writingPostBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:clickable="true"
+            android:text="글쓰기"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_post_add_24"
-            tools:layout_editor_absoluteY="665dp" />
-    </LinearLayout>
+            android:layout_marginRight="20dp"
+            />
+
+
+
+    </RelativeLayout>
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

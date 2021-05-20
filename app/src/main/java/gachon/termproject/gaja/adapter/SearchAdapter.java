@@ -61,9 +61,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 .load(arrayList.get(position).getTitleImage())
                 .into(holder.tn_image);
         holder.tn_postTitle.setText(arrayList.get(position).getTitle());
-        holder.tn_uploadTime.setText(new SimpleDateFormat("MM월dd일 hh시mm분", Locale.KOREA).format(arrayList.get(position).getCreatedAt()));
+        holder.tn_publisher.setTextSize(13);
+        holder.tn_uploadTime.setText(new SimpleDateFormat("MM월dd일 hh시mm분", Locale.KOREA).format(arrayList.get(position).getFinishTime()));
+        holder.tn_uploadTime.setTextSize(10);
         holder.tn_numberOfPeople.setText(arrayList.get(position).getCurrentNumOfPeople() + " / " + (int) arrayList.get(position).getPeopleNeed());
+        holder.tn_numberOfPeople.setTextSize(15);
+
         holder.tn_publisher.setText(arrayList.get(position).getUserName());
+        holder.tn_publisher.setTextSize(10);
     }
 
     @Override

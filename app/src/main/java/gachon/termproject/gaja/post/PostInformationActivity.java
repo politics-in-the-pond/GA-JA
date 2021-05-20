@@ -1,19 +1,25 @@
 package gachon.termproject.gaja.post;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +48,7 @@ import gachon.termproject.gaja.Info.PostInfo;
 
 import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.adapter.postAdapter;
+import gachon.termproject.gaja.adapter.post_mypage_Adapter;
 import gachon.termproject.gaja.listener.OnPostListener;
 
 import static gachon.termproject.gaja.Util.isStorageUrl;
@@ -60,15 +67,18 @@ public class PostInformationActivity extends AppCompatActivity {
     private Button reportBtn;
     //참여 버튼
     private Button enrollmentBtn;
-    private ConstraintLayout doneLayout;
-    private ConstraintLayout publisher_timeOutLayout;
-    private ConstraintLayout another_timeOutLayout;
-    private ConstraintLayout waitingLayout_another;
-    private ConstraintLayout makingLinkLayout;
+    private LinearLayout doneLayout;
+    private LinearLayout publisher_timeOutLayout;
+    private LinearLayout another_timeOutLayout;
+    private LinearLayout makingLinkLayout;
 
-    private EditText link;
+    private TextView link_maker;
+    private TextView title_maker;
 
     private DocumentReference dr;
+
+    private String cklink;
+    private String seetitle;
 
     //파이어베이스에서 유저 정보 가져오기위해 선언.
     FirebaseUser firebaseUser;
@@ -83,6 +93,7 @@ public class PostInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+
         doneLayout = findViewById(R.id.doneLayout);
         doneLayout.setVisibility(View.GONE);
 
@@ -92,9 +103,6 @@ public class PostInformationActivity extends AppCompatActivity {
         another_timeOutLayout = findViewById(R.id.timeOutLayout_another);
         another_timeOutLayout.setVisibility(View.GONE);
 
-        waitingLayout_another = findViewById(R.id.waitingLayout_another);
-        waitingLayout_another.setVisibility(View.GONE);
-
         makingLinkLayout = findViewById(R.id.makingLinkLayout);
         makingLinkLayout.setVisibility(View.GONE);
 
@@ -102,11 +110,18 @@ public class PostInformationActivity extends AppCompatActivity {
         findViewById(R.id.goBackBtn_doneLayout).setOnClickListener(onClickListener);
         findViewById(R.id.goBackBtn_timeOut).setOnClickListener(onClickListener);
         findViewById(R.id.deleteBtn_timeOut).setOnClickListener(onClickListener);
-        findViewById(R.id.goBackBtn_waitingLayout).setOnClickListener(onClickListener);
         findViewById(R.id.goBackBtn_makingLinkLayout).setOnClickListener(onClickListener);
-        findViewById(R.id.linkConfirmBtn).setOnClickListener(onClickListener);
+        findViewById(R.id.Declaration).setOnClickListener(onClickListener);
 
-        link = findViewById(R.id.linkEditText);
+        link_maker = findViewById(R.id.openchat_link_textview_maker);
+        title_maker = findViewById(R.id.seetitle_makinglink);
+
+        link_maker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cklink)));
+            }
+        });
 
     }
 
@@ -141,15 +156,21 @@ public class PostInformationActivity extends AppCompatActivity {
             }
         }
 
+        //목표인원이 다 찬 경우 => 마감
         if(postInfo.getPeopleNeed() == postInfo.getCurrentNumOfPeople()) {
             enrollmentBtn.setText("");
             enrollmentBtn.setVisibility(View.GONE);
+
+            cklink = postInfo.getTalkLink();
+            seetitle = postInfo.getTitle();
+
+            title_maker.setText(seetitle + " 게시글이 마감되었습니다.");
 
             if(user.equals(postInfo.getPublisher())){
                 makingLinkLayout.setVisibility(View.VISIBLE);
             }
             else if(postInfo.getParticipatingUserId().contains(user)){
-                waitingLayout_another.setVisibility(View.VISIBLE);
+                makingLinkLayout.setVisibility(View.VISIBLE);
             }
             else{
                 doneLayout.setVisibility(View.VISIBLE);
@@ -168,7 +189,6 @@ public class PostInformationActivity extends AppCompatActivity {
         else{
             enrollmentBtn.setText("참여");
         }
-
 
 
         //게시글 정보 띄우기 위한 코드
@@ -193,11 +213,13 @@ public class PostInformationActivity extends AppCompatActivity {
         Log.d("로그","" + postInfo.getCurrentNumOfPeople() + " / " + postInfo.getPeopleNeed());
 
         TextView postCreatedAt = findViewById(R.id.post_uploadtime);
-        postCreatedAt.setText(new SimpleDateFormat("MM-dd hh:mm", Locale.KOREA).format(postInfo.getCreatedAt()));
+        postCreatedAt.setText(new SimpleDateFormat("MM-dd hh:mm 까지", Locale.KOREA).format(postInfo.getFinishTime()));
         Log.d("로그","" + postInfo.getCreatedAt());
 
         TextView postContent = findViewById(R.id.post_content);
         postContent.setText(postInfo.getContent());
+
+
 
         //끝
 
@@ -367,8 +389,6 @@ public class PostInformationActivity extends AppCompatActivity {
 
                 case R.id. goBackBtn_timeOut:
 
-                case R.id.goBackBtn_waitingLayout:
-
                 case R.id.goBackBtn_makingLinkLayout:
                     finish();
                     break;
@@ -378,33 +398,14 @@ public class PostInformationActivity extends AppCompatActivity {
                     finish();
                     break;
 
-                case R.id.linkConfirmBtn:
-                    String linkUrl = link.getText().toString();
-                    storingLink(linkUrl);
-                    finish();
+                case R.id.Declaration:
+                    //신고로 이어짐
                     break;
+
             }
         }
     };
 
-    private void storingLink(String linkUrl){
-        firebaseFirestore.collection("posts").document(postInfo.getPostId())
-                .update("talkLink", linkUrl)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating document", e);
-                    }
-                });
-
-        //여기에 알림 보내는 거 넣어도 될듯.
-    }
 
     OnPostListener onPostListener = new OnPostListener() {
 
