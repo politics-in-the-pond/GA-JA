@@ -1,10 +1,12 @@
 package gachon.termproject.gaja.ui.home;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -73,14 +76,16 @@ public class TotalFragment extends Fragment {
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             //각 게시글의 정보를 가져와 arrayList에 저장.
                             ArrayList<PostInfo> postList = new ArrayList<>();
+                            PostInfo postInfo;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("로그: ", document.getId() + " => " + document.getData());
-                                postList.add(new PostInfo(
+                                postInfo = new PostInfo(
                                         document.getData().get("titleImage").toString(),
                                         document.getData().get("title").toString(),
                                         document.getData().get("content").toString(),
@@ -91,8 +96,20 @@ public class TotalFragment extends Fragment {
                                         (Long) document.getData().get("currentNumOfPeople"),
                                         document.getData().get("postId").toString(),
                                         (ArrayList<String>) document.getData().get("participatingUserId"),
-                                        document.getData().get("category").toString()
-                                ));
+                                        document.getData().get("category").toString(),
+                                        new Date(document.getDate("finishTime").getTime()),
+                                        document.getData().get("talkLink").toString()
+                                );
+                                long gap = postInfo.getFinishTime().getTime() - new Date().getTime();
+                                if(gap < 0){
+                                    //마감
+                                }
+                                else if(postInfo.getCurrentNumOfPeople() == postInfo.getPeopleNeed()){
+                                    //인원 꽉참
+                                }
+                                else{
+                                    postList.add(postInfo);
+                                }
                             }
 
                             //recipeAdapter를 이용하여 리사이클러 뷰로 내용 띄움.

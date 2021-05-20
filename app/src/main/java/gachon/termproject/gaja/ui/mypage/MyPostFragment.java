@@ -92,7 +92,9 @@ public class MyPostFragment extends Fragment {
                                         (Long) document.getData().get("currentNumOfPeople"),
                                         document.getData().get("postId").toString(),
                                         (ArrayList<String>) document.getData().get("participatingUserId"),
-                                        document.getData().get("category").toString()
+                                        document.getData().get("category").toString(),
+                                        new Date(document.getDate("finishTime").getTime()),
+                                        document.getData().get("talkLink").toString()
                                 ));
                             }
 

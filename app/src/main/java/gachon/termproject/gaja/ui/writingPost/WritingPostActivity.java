@@ -58,6 +58,7 @@ public class WritingPostActivity extends AppCompatActivity {
     private String numberOfPeople;
     private Spinner categorySpinner;
     private String category;
+    private EditText time;
 
     private RelativeLayout loaderLayout;
     //타이틀 이미지 경로값
@@ -74,7 +75,7 @@ public class WritingPostActivity extends AppCompatActivity {
         addTitleImageBtn.setOnClickListener(onClickListener);
         findViewById(R.id.confirmBtn).setOnClickListener(onClickListener);
         findViewById(R.id.goBackBtn).setOnClickListener(onClickListener);
-
+        time = findViewById(R.id.finishTime_editText);
 
         numberOfPeopleSpinner = (Spinner) findViewById(R.id.numberOfPeopleSpinner);
         //태그 카테고리 스피너에서 값을 얻어옴
@@ -147,15 +148,26 @@ public class WritingPostActivity extends AppCompatActivity {
         final String title = ((EditText)findViewById(R.id.editTitle)).getText().toString();
         //레시피 재료 저장.
         final String content = ((EditText)findViewById(R.id.editContent)).getText().toString();
+
+        int remainTime = Integer.parseInt(time.getText().toString());
+
         //타이틀이미지 경로 저장.
         String[] titleArray = titleImagePath.split("\\.");
 
         final long number = Long.parseLong(numberOfPeople);
         //만약 제목, 내용 모두 공백이 아닐경우 업로드 실행.
-        if(title.length() > 0 && content.length() > 0 && titleArray.length > 0 && number > 1){
+        if(title.length() > 0 && content.length() > 0 && titleArray.length > 0 && number > 1 && remainTime > 0){
             //업로드를 하고있는 것을 보여주기 위한 로딩창 띄움.
             loaderLayout.setVisibility(View.VISIBLE);
 
+            Date uploadTime = new Date();
+            Date finishTime = new Date();
+
+            int hour = uploadTime.getHours();
+            int minute = uploadTime.getMinutes();
+            int date = uploadTime.getDate();
+
+            finishTime.setHours(finishTime.getHours() + remainTime);
             //현재 유저 데이터 가져옴
             user = FirebaseAuth.getInstance().getCurrentUser();
             //Storage 선언
@@ -178,7 +190,6 @@ public class WritingPostActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("로그 : " , "실패 " + titleImagePath);
-
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -210,7 +221,7 @@ public class WritingPostActivity extends AppCompatActivity {
                                                         DocumentReference documentReference = firebaseFirestore.collection("posts").document();
                                                         //recipepostinfo 형식으로 저장.
                                                         PostInfo postInfo = new PostInfo(titleImagePath, title, content,
-                                                                user.getUid(), memberInfo.getNickName(), new Date(), number ,1, documentReference.getId(), participatingUserId, category);
+                                                                user.getUid(), memberInfo.getNickName(), uploadTime , number ,1, documentReference.getId(), participatingUserId, category, finishTime, "");
                                                         //업로드 실행
                                                         dbUploader(documentReference, postInfo);
                                                     } else {
@@ -221,8 +232,6 @@ public class WritingPostActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-
-
                             }
                         });
                     }

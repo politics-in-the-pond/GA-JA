@@ -12,8 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +42,7 @@ import gachon.termproject.gaja.Info.PostInfo;
 
 import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.adapter.postAdapter;
+import gachon.termproject.gaja.listener.OnPostListener;
 
 import static gachon.termproject.gaja.Util.isStorageUrl;
 import static gachon.termproject.gaja.Util.showToast;
@@ -60,6 +61,12 @@ public class PostInformationActivity extends AppCompatActivity {
     //참여 버튼
     private Button enrollmentBtn;
     private ConstraintLayout doneLayout;
+    private ConstraintLayout publisher_timeOutLayout;
+    private ConstraintLayout another_timeOutLayout;
+    private ConstraintLayout waitingLayout_another;
+    private ConstraintLayout makingLinkLayout;
+
+    private EditText link;
 
     private DocumentReference dr;
 
@@ -78,7 +85,28 @@ public class PostInformationActivity extends AppCompatActivity {
 
         doneLayout = findViewById(R.id.doneLayout);
         doneLayout.setVisibility(View.GONE);
+
+        publisher_timeOutLayout = findViewById(R.id.timeOutLayout_publisher);
+        publisher_timeOutLayout.setVisibility(View.GONE);
+
+        another_timeOutLayout = findViewById(R.id.timeOutLayout_another);
+        another_timeOutLayout.setVisibility(View.GONE);
+
+        waitingLayout_another = findViewById(R.id.waitingLayout_another);
+        waitingLayout_another.setVisibility(View.GONE);
+
+        makingLinkLayout = findViewById(R.id.makingLinkLayout);
+        makingLinkLayout.setVisibility(View.GONE);
+
+
         findViewById(R.id.goBackBtn_doneLayout).setOnClickListener(onClickListener);
+        findViewById(R.id.goBackBtn_timeOut).setOnClickListener(onClickListener);
+        findViewById(R.id.deleteBtn_timeOut).setOnClickListener(onClickListener);
+        findViewById(R.id.goBackBtn_waitingLayout).setOnClickListener(onClickListener);
+        findViewById(R.id.goBackBtn_makingLinkLayout).setOnClickListener(onClickListener);
+        findViewById(R.id.linkConfirmBtn).setOnClickListener(onClickListener);
+
+        link = findViewById(R.id.linkEditText);
 
     }
 
@@ -101,12 +129,32 @@ public class PostInformationActivity extends AppCompatActivity {
         //추천한 유저 명단
         ArrayList<String> participatingUser = postInfo.getParticipatingUserId();
 
+        long gap = postInfo.getFinishTime().getTime() - new Date().getTime();
+        if(gap < 0){
+            if(user.equals(postInfo.getPublisher())){
+                publisher_timeOutLayout.setVisibility(View.VISIBLE);
+            }
+            else{
+                enrollmentBtn.setText("");
+                enrollmentBtn.setVisibility(View.GONE);
+                another_timeOutLayout.setVisibility(View.VISIBLE);
+            }
+        }
+
         if(postInfo.getPeopleNeed() == postInfo.getCurrentNumOfPeople()) {
             enrollmentBtn.setText("");
             enrollmentBtn.setVisibility(View.GONE);
-            doneLayout.setVisibility(View.VISIBLE);
 
-            //알림 보내는 부분 여기에 추가하면 될듯
+            if(user.equals(postInfo.getPublisher())){
+                makingLinkLayout.setVisibility(View.VISIBLE);
+            }
+            else if(postInfo.getParticipatingUserId().contains(user)){
+                waitingLayout_another.setVisibility(View.VISIBLE);
+            }
+            else{
+                doneLayout.setVisibility(View.VISIBLE);
+            }
+
         }
         else if(user.equals(postInfo.getPublisher())){
             enrollmentBtn.setText("");
@@ -183,7 +231,9 @@ public class PostInformationActivity extends AppCompatActivity {
                                         (Long) document.getData().get("currentNumOfPeople"),
                                         document.getData().get("postId").toString(),
                                         (ArrayList<String>) document.getData().get("participatingUserId"),
-                                        document.getData().get("category").toString()
+                                        document.getData().get("category").toString(),
+                                        new Date(document.getDate("finishTime").getTime()),
+                                        document.getData().get("talkLink").toString()
                                 );
                                 if(!(anotherPostInfo.getPostId().equals(postInfo.getPostId()))){
                                     postList.add(anotherPostInfo);
@@ -194,13 +244,13 @@ public class PostInformationActivity extends AppCompatActivity {
                             another_Post.setAdapter(mAdapter);
                         } else {
                             Log.d("로그: ", "Error getting documents: ", task.getException());
-
                         }
                     }
                 });
 
         //끝
     }
+
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -211,7 +261,6 @@ public class PostInformationActivity extends AppCompatActivity {
                     firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //파이어베이스 유저 선언
                     user = firebaseUser.getUid();
                     id = postInfo.getPostId();
-
                     firebaseFirestore.collection("users").document(user).get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
@@ -315,9 +364,119 @@ public class PostInformationActivity extends AppCompatActivity {
                     break;
 
                 case R.id.goBackBtn_doneLayout:
-                    finish();
 
+                case R.id. goBackBtn_timeOut:
+
+                case R.id.goBackBtn_waitingLayout:
+
+                case R.id.goBackBtn_makingLinkLayout:
+                    finish();
+                    break;
+
+                case R.id. deleteBtn_timeOut:
+                    onPostListener.onDelete(postInfo);
+                    finish();
+                    break;
+
+                case R.id.linkConfirmBtn:
+                    String linkUrl = link.getText().toString();
+                    storingLink(linkUrl);
+                    finish();
+                    break;
             }
+        }
+    };
+
+    private void storingLink(String linkUrl){
+        firebaseFirestore.collection("posts").document(postInfo.getPostId())
+                .update("talkLink", linkUrl)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+        //여기에 알림 보내는 거 넣어도 될듯.
+    }
+
+    OnPostListener onPostListener = new OnPostListener() {
+
+        @Override
+        public void onDelete(PostInfo postInfo) {
+            ArrayList<String> enrollmentUser = postInfo.getParticipatingUserId();
+
+            for(int i = 0 ; i < enrollmentUser.size() ; i ++){
+                String userid = enrollmentUser.get(i);
+                firebaseFirestore.collection("users").document(userid).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Log.d(TAG, "다큐먼트 실행");
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        MemberInfo memberInfo = new MemberInfo(
+                                                document.getData().get("id").toString(),
+                                                document.getData().get("nickName").toString(),
+                                                (ArrayList<String>) document.getData().get("participatingPost"),
+                                                document.getData().get("fcmtoken").toString()
+                                        );
+                                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        //recipepostinfo 형식으로 저장.
+                                        ArrayList<String> participatingPost = memberInfo.getParticipatingPost();
+                                        participatingPost.remove(postInfo.getPostId());
+
+                                        firebaseFirestore.collection("users").document(userid)
+                                                .update("participatingPost", participatingPost)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
+                                    } else {
+                                        Log.d(TAG, "No such document");
+                                    }
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+            }
+
+
+            Log.d(TAG, "삭제" + id);
+            firebaseFirestore.collection("posts").document(postInfo.getPostId())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            publisher_timeOutLayout.setVisibility(View.GONE);
+                            finish();
+                            showToast(PostInformationActivity.this ,"게시글 삭제에 성공했어요!");
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            showToast(PostInformationActivity.this ,"게시글 삭제에 실패했어요!");
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
         }
     };
 

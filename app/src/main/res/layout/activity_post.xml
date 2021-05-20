@@ -145,5 +145,29 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <include
+        layout="@layout/view_timeout_publisher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
+    <include
+        layout="@layout/view_timeout_participate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
+    <include
+        layout="@layout/view_waiting_link"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
+    <include
+        layout="@layout/view_making_link"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
 
 </RelativeLayout>
