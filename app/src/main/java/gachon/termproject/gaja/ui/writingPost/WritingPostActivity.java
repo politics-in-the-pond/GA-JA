@@ -191,10 +191,7 @@ public class WritingPostActivity extends AppCompatActivity {
                                 Log.d("로그 : " , "titleImagePath " + titleImagePath);
 
                                 ArrayList<String> participatingUserId = new ArrayList<>();
-                                participatingUserId.add(user.getUid());
                                 //유저 아이디를 통해 데이터베이스에 접근하여 이름을 가져옴.
-                                Log.d("로그 : " , "유저 아이디 값 " + user.getUid());
-
                                 firebaseFirestore.collection("users").document(user.getUid()).get()
                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
@@ -202,15 +199,14 @@ public class WritingPostActivity extends AppCompatActivity {
                                                 Log.d(TAG, "다큐먼트 실행");
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot document = task.getResult();
-                                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                     if (document.exists()) {
                                                         MemberInfo memberInfo = new MemberInfo(
-                                                                document.getData().get("id").toString(),
-                                                                document.getData().get("nickName").toString(),
+                                                                document.getData().get("name").toString(),
+                                                                document.getData().get("nickname").toString(),
                                                                 (ArrayList<String>) document.getData().get("participatingPost")
                                                         );
                                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                        DocumentReference documentReference = firebaseFirestore.collection("posts").document();
+                                                        DocumentReference documentReference = firebaseFirestore.collection("recipePost").document();
                                                         //recipepostinfo 형식으로 저장.
                                                         PostInfo postInfo = new PostInfo(titleImagePath, title, content,
                                                                 user.getUid(), memberInfo.getNickName(), new Date(), number ,1, documentReference.getId(), participatingUserId, category);

@@ -1,11 +1,8 @@
 package gachon.termproject.gaja.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -14,6 +11,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,29 +31,32 @@ import gachon.termproject.gaja.R;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public FirebaseUser user = null;
     EditText email;
     EditText pw;
     Button login;
     TextView register;
     CheckBox isAutoLogin;
     AutoLoginProvider autoLoginProvider = new AutoLoginProvider();
-    private FirebaseAuth mAuth;
-    public FirebaseUser user = null;
     File loginFile;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ActionBar actionbar = getSupportActionBar();
+        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(LoginActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
 
-        ActivityCompat.requestPermissions(LoginActivity.this,
-                new String[]{"android.permission.INTERNET"}, 0);
-        ActivityCompat.requestPermissions(LoginActivity.this,
-                new String[]{"Manifest.permission.READ_EXTERNAL_STORAGE"}, MODE_PRIVATE);
-        ActivityCompat.requestPermissions(LoginActivity.this,
-                new String[]{"Manifest.permission.WRITE_EXTERNAL_STORAGE"}, MODE_PRIVATE);
+            }
+        }
 
         email = (EditText) findViewById(R.id.email);
         pw = (EditText) findViewById(R.id.pw);
@@ -98,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                 autoLoginProvider.AutoLoginRemover();
                             }
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginBridge.class);
                             startActivity(intent); //메인으로 이동
                             finish();
                         } else {
