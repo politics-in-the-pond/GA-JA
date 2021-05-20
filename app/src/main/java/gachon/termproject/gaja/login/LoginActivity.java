@@ -1,22 +1,20 @@
 package gachon.termproject.gaja.login;
 
-import android.Manifest;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,32 +29,30 @@ import gachon.termproject.gaja.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public FirebaseUser user = null;
     EditText email;
     EditText pw;
     Button login;
     TextView register;
     CheckBox isAutoLogin;
     AutoLoginProvider autoLoginProvider = new AutoLoginProvider();
-    File loginFile;
     private FirebaseAuth mAuth;
+    public FirebaseUser user = null;
+    File loginFile;
+    private RelativeLayout loaderLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(LoginActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    1);
-            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
+        ActionBar actionbar = getSupportActionBar();
 
-            }
-        }
+        ActivityCompat.requestPermissions(LoginActivity.this,
+                new String[]{"android.permission.INTERNET"}, 0);
+        ActivityCompat.requestPermissions(LoginActivity.this,
+                new String[]{"Manifest.permission.READ_EXTERNAL_STORAGE"}, MODE_PRIVATE);
+        ActivityCompat.requestPermissions(LoginActivity.this,
+                new String[]{"Manifest.permission.WRITE_EXTERNAL_STORAGE"}, MODE_PRIVATE);
 
         email = (EditText) findViewById(R.id.email);
         pw = (EditText) findViewById(R.id.pw);
@@ -65,11 +61,14 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         isAutoLogin = (CheckBox) findViewById(R.id.isAutoLogin);
         loginFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/logininfo", "login.dat");
+        loaderLayout = findViewById(R.id.loaderLayout);
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!email.getText().toString().equals("") && !pw.getText().toString().equals("")) {
+                    loaderLayout.setVisibility(View.VISIBLE);
                     loginUser(email.getText().toString(), pw.getText().toString());
                     if (user != null) {
 
@@ -103,11 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 autoLoginProvider.AutoLoginRemover();
                             }
-
+                            loaderLayout.setVisibility(View.GONE);
                             Intent intent = new Intent(getApplicationContext(), LoginBridge.class);
                             startActivity(intent); //메인으로 이동
                             finish();
                         } else {
+                            loaderLayout.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }

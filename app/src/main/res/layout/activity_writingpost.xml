@@ -83,7 +83,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="최소 인원수"/>
+                            android:text="최소 인원수" />
 
                         <Spinner
                             android:id="@+id/numberOfPeopleSpinner"
@@ -101,7 +101,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="카테고리"/>
+                            android:text="카테고리" />
 
                         <Spinner
                             android:id="@+id/categorySpinner"
@@ -109,6 +109,10 @@
                             android:layout_height="wrap_content"
                             android:entries="@array/categorySpinner" />
                     </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
 
                 </TableLayout>

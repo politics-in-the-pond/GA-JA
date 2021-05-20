@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/post_Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".post.PostInformationActivity">
 
 
@@ -20,6 +18,12 @@
     <!-- 신고 버튼 -->
 
     <!-- 내용과 글 관련 정보 구분 선 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/post_Container"
+        android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -109,6 +113,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="다른 추천 게시글"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -124,5 +137,13 @@
     </ScrollView>
 
     <!-- 내용은 스크롤뷰로 볼 수 있게 -->
+    </LinearLayout>
 
-</LinearLayout>
+    <include
+        layout="@layout/view_participating_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

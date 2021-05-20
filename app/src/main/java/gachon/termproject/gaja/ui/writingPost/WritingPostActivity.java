@@ -201,12 +201,13 @@ public class WritingPostActivity extends AppCompatActivity {
                                                     DocumentSnapshot document = task.getResult();
                                                     if (document.exists()) {
                                                         MemberInfo memberInfo = new MemberInfo(
-                                                                document.getData().get("name").toString(),
-                                                                document.getData().get("nickname").toString(),
-                                                                (ArrayList<String>) document.getData().get("participatingPost")
+                                                                document.getData().get("id").toString(),
+                                                                document.getData().get("nickName").toString(),
+                                                                (ArrayList<String>) document.getData().get("participatingPost"),
+                                                                document.getData().get("fcmtoken").toString()
                                                         );
                                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                        DocumentReference documentReference = firebaseFirestore.collection("recipePost").document();
+                                                        DocumentReference documentReference = firebaseFirestore.collection("posts").document();
                                                         //recipepostinfo 형식으로 저장.
                                                         PostInfo postInfo = new PostInfo(titleImagePath, title, content,
                                                                 user.getUid(), memberInfo.getNickName(), new Date(), number ,1, documentReference.getId(), participatingUserId, category);

@@ -2,6 +2,7 @@ package gachon.termproject.gaja.post;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -57,6 +59,7 @@ public class PostInformationActivity extends AppCompatActivity {
     private Button reportBtn;
     //참여 버튼
     private Button enrollmentBtn;
+    private ConstraintLayout doneLayout;
 
     private DocumentReference dr;
 
@@ -73,6 +76,10 @@ public class PostInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+        doneLayout = findViewById(R.id.doneLayout);
+        doneLayout.setVisibility(View.GONE);
+        findViewById(R.id.goBackBtn_doneLayout).setOnClickListener(onClickListener);
+
     }
 
     //게시글 참여인원수가 증가했거나 감소했을경우, 또는 게시글이 작성되었을 경우 바로바로 업데이트 해주기 위해 resume함수에 넣어 관리.
@@ -88,13 +95,24 @@ public class PostInformationActivity extends AppCompatActivity {
         findViewById(R.id.btn_report).setOnClickListener(onClickListener);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //파이어베이스 유저 선언
         user = firebaseUser.getUid();
-
+        enrollmentBtn.setVisibility(View.VISIBLE);
         //게시글 data 가져옴
         postInfo = (PostInfo) getIntent().getSerializableExtra("PostInfo");
         //추천한 유저 명단
         ArrayList<String> participatingUser = postInfo.getParticipatingUserId();
-        //만약 현재 유저가 게시글에 이미 참가를 눌렀다면
-        if(participatingUser.contains(user))
+
+        if(postInfo.getPeopleNeed() == postInfo.getCurrentNumOfPeople()) {
+            enrollmentBtn.setText("");
+            enrollmentBtn.setVisibility(View.GONE);
+            doneLayout.setVisibility(View.VISIBLE);
+
+            //알림 보내는 부분 여기에 추가하면 될듯
+        }
+        else if(user.equals(postInfo.getPublisher())){
+            enrollmentBtn.setText("");
+            enrollmentBtn.setVisibility(View.GONE);
+        }
+        else if(participatingUser.contains(user))
         {
             enrollmentBtn.setText("참여 취소");
         }
@@ -151,9 +169,10 @@ public class PostInformationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<PostInfo> postList = new ArrayList<>();
+                            PostInfo anotherPostInfo;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("로그: ", document.getId() + " => " + document.getData());
-                                postList.add(new PostInfo(
+                                anotherPostInfo = new PostInfo(
                                         document.getData().get("titleImage").toString(),
                                         document.getData().get("title").toString(),
                                         document.getData().get("content").toString(),
@@ -165,7 +184,10 @@ public class PostInformationActivity extends AppCompatActivity {
                                         document.getData().get("postId").toString(),
                                         (ArrayList<String>) document.getData().get("participatingUserId"),
                                         document.getData().get("category").toString()
-                                ));
+                                );
+                                if(!(anotherPostInfo.getPostId().equals(postInfo.getPostId()))){
+                                    postList.add(anotherPostInfo);
+                                }
                             }
 
                             RecyclerView.Adapter mAdapter = new postAdapter(PostInformationActivity.this, postList);
@@ -200,9 +222,10 @@ public class PostInformationActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             MemberInfo memberInfo = new MemberInfo(
-                                                    document.getData().get("name").toString(),
-                                                    document.getData().get("nickname").toString(),
-                                                    (ArrayList<String>) document.getData().get("participatingPost")
+                                                    document.getData().get("id").toString(),
+                                                    document.getData().get("nickName").toString(),
+                                                    (ArrayList<String>) document.getData().get("participatingPost"),
+                                                    document.getData().get("fcmtoken").toString()
                                             );
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                             if(memberInfo.getParticipatingPost()==null){
@@ -290,6 +313,10 @@ public class PostInformationActivity extends AppCompatActivity {
 
                 case R.id.btn_report:
                     break;
+
+                case R.id.goBackBtn_doneLayout:
+                    finish();
+
             }
         }
     };
