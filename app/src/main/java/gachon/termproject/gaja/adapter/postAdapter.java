@@ -89,7 +89,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postViewHolder
         userName.setText(mDataset.get(position).getUserName());
 
         TextView createdAt = cardView.findViewById(R.id.tn_uploadTime);
-        createdAt.setText(new SimpleDateFormat("MM-dd hh:mm", Locale.KOREA).format(mDataset.get(position).getCreatedAt()));
+        createdAt.setText(new SimpleDateFormat("MM월dd일 hh시mm분", Locale.KOREA).format(mDataset.get(position).getCreatedAt()));
 
         TextView numberOfPeople = cardView.findViewById(R.id.tn_numberOfPeople);
         int currentPeople = (int) mDataset.get(position).getCurrentNumOfPeople();

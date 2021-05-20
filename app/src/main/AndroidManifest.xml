@@ -18,14 +18,15 @@
         <activity android:name=".post.PostInformationActivity" />
         <activity android:name=".gallery.GalleryActivity"/>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.LoginBridge" android:theme="@style/Theme.Gaja.NoActionBar"/>
+        <activity android:name=".login.LoginBridge" />
         <activity android:name=".login.RegisterActivity"/>
-        <activity android:name=".login.SplashActivity" android:theme="@style/Theme.Gaja.NoActionBar">
+        <activity android:name=".login.SplashActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
+        <activity android:name=".searchResult.searchResultActivity"/>
         <activity android:name=".ui.writingPost.WritingPostActivity"/>
         <activity android:name=".MainActivity" >
 
