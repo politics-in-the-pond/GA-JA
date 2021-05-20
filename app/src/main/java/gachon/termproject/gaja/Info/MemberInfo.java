@@ -7,11 +7,13 @@ public class MemberInfo implements Serializable {
     String id;
     String nickName;
     ArrayList<String> participatingPost;
+    String FCMtoken;
 
-    public MemberInfo(String id, String nickName, ArrayList<String> participatingPost) {
+    public MemberInfo(String id, String nickName, ArrayList<String> participatingPost, String FCMtoken) {
         this.id = id;
         this.nickName = nickName;
         this.participatingPost = participatingPost;
+        this.FCMtoken = FCMtoken;
     }
 
     public String getId() {
@@ -36,5 +38,13 @@ public class MemberInfo implements Serializable {
 
     public void setParticipatingPost(ArrayList<String> participatingPost) {
         this.participatingPost = participatingPost;
+    }
+
+    public String getFCMtoken() {
+        return this.FCMtoken;
+    }
+
+    public void setFCMtoken(String id) {
+        this.FCMtoken = FCMtoken;
     }
 }

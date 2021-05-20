@@ -18,9 +18,9 @@
         <activity android:name=".post.PostInformationActivity" />
         <activity android:name=".gallery.GalleryActivity"/>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.AfterLoginTest"/>
+        <activity android:name=".login.LoginBridge" android:theme="@style/Theme.Gaja.NoActionBar"/>
         <activity android:name=".login.RegisterActivity"/>
-        <activity android:name=".login.SplashActivity" android:theme="@style/FullScreenTheme">
+        <activity android:name=".login.SplashActivity" android:theme="@style/Theme.Gaja.NoActionBar">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -30,6 +30,15 @@
         <activity android:name=".MainActivity" >
 
         </activity>
+
+        <service android:name=".login.MyFirebaseMessagingService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
+
+
 
 </manifest>

@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                 autoLoginProvider.AutoLoginRemover();
                             }
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginBridge.class);
                             startActivity(intent); //메인으로 이동
                             finish();
                         } else {

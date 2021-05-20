@@ -203,7 +203,8 @@ public class WritingPostActivity extends AppCompatActivity {
                                                         MemberInfo memberInfo = new MemberInfo(
                                                                 document.getData().get("name").toString(),
                                                                 document.getData().get("nickname").toString(),
-                                                                (ArrayList<String>) document.getData().get("participatingPost")
+                                                                (ArrayList<String>) document.getData().get("participatingPost"),
+                                                                ""
                                                         );
                                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                         DocumentReference documentReference = firebaseFirestore.collection("recipePost").document();

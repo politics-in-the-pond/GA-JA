@@ -71,7 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendNotification(String messageBody) {
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -97,5 +97,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        String deviceToken = s;
+        // Do whatever you want with your token now
+        // i.e. store it on SharedPreferences or DB
+        // or directly send it to server
     }
 }
