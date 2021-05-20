@@ -13,6 +13,8 @@
     <string name="title_menu">메뉴</string>
     <string name="title_alarm">알림</string>
 
+    <string name="alarm">인원 모집 완료 : </string>
+
     <string-array name="board_array">
         <item>전체 </item>
         <item>같이 사요 </item>
