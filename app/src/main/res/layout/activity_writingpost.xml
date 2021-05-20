@@ -113,6 +113,24 @@
                     </TableRow>
 
                     <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="오픈채팅 링크" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:id="@+id/openchat_link"
+                            android:hint="chat link"/>
+
+                    </TableRow>
+
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp">
@@ -138,6 +156,8 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
