@@ -15,6 +15,8 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import gachon.termproject.gaja.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -36,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-
+            sendNotificationFromPost(remoteMessage.getData());
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
             } else {
@@ -97,6 +99,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    private void sendNotificationFromPost(Map messagebody){
+        if(!messagebody.get("postno").equals("")){
+            Log.d(TAG,"입력됨");
+            messagebody.get("");
+
+        }
     }
 
     @Override
