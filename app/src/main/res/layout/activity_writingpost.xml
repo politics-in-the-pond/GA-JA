@@ -5,28 +5,46 @@
     android:layout_height="match_parent"
     android:layout_margin="3dp">
 
-    <ScrollView
+    <!--toolbar-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/writepost_toolbar_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시물 등록"
+            android:textSize="20sp">
+        </TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <ImageButton
-                android:id="@+id/addTitleImageBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_image_24" />
-
             <EditText
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:ems="10"
                 android:hint="제목을 입력해주세요!"
                 android:inputType="text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@mipmap/ic_launcher"/>
 
             <EditText
                 android:id="@+id/editContent"
@@ -35,6 +53,18 @@
                 android:ems="10"
                 android:hint="내용을 입력해주세요!"
                 android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="공구하는 제품, 음식 구매페이지를 캡쳐해서 넣어주세요"/>
+
+            <ImageButton
+                android:id="@+id/addTitleImageBtn"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/ic_baseline_image_24" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,11 +80,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="최소 인원수"/>
+
                         <Spinner
                             android:id="@+id/numberOfPeopleSpinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:entries="@array/peopleSpinner" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="카테고리"/>
 
                         <Spinner
                             android:id="@+id/categorySpinner"
@@ -63,33 +110,35 @@
                             android:entries="@array/categorySpinner" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <Button
-                            android:id="@+id/confirmBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
-                            android:layout_weight="1"
-                            android:text="작성"
-                            app:backgroundTint="@color/black" />
-
-                        <Button
-                            android:id="@+id/goBackBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
-                            android:layout_weight="1"
-                            android:text="취소"
-                            app:backgroundTint="@color/black" />
-                    </TableRow>
 
                 </TableLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/confirmBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:text="작성"
+            app:backgroundTint="@color/black" />
+
+        <Button
+            android:id="@+id/goBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:text="취소"
+            app:backgroundTint="@color/black" />
+    </LinearLayout>
 
     <include
         layout="@layout/view_loader"
