@@ -50,6 +50,7 @@ import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.adapter.postAdapter;
 import gachon.termproject.gaja.adapter.post_mypage_Adapter;
 import gachon.termproject.gaja.listener.OnPostListener;
+import gachon.termproject.gaja.login.SendMessage;
 
 import static gachon.termproject.gaja.Util.isStorageUrl;
 import static gachon.termproject.gaja.Util.showToast;
@@ -509,6 +510,10 @@ public class PostInformationActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             showToast(PostInformationActivity.this, "게시글에 참여했어요!");
                             Log.w(TAG, "Success writing document" + documentReference.getId());
+                            if(postInfo.getCurrentNumOfPeople()==postInfo.getPeopleNeed()){
+                                SendMessage sendMessage = new SendMessage();
+                                sendMessage.SendFull(postInfo);
+                            }
                             onResume();
                         }
                     }).addOnFailureListener(new OnFailureListener() {

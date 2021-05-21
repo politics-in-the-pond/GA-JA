@@ -19,7 +19,7 @@ public class FileIO {
 
     public byte[] FileReader(File file) {
         byte[] error = {0x00};
-        byte[] b = new byte[256];
+        byte[] b = new byte[1000000];
         try {
             FileInputStream fin = new FileInputStream(file);
             if (file.exists()) {

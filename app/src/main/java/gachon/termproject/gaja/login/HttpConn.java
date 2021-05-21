@@ -34,7 +34,7 @@ public class HttpConn {
     private void requestWebServer(String to, String title, String message, String postno) throws IOException {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\r\n    \"to\": \"eDyiJer6SrmYDHFNrnmDR_:APA91bGFij7TKKZpMEiPI6uV_e79PmcMLp0JI5vYzfgI5BpQQcXqiU-Vt58ZY7bY_ooK3H6XrzcTCYzS5CrcGgrhNHDwCLuY2be_nFxd12kW0m3MyN5aTwDyACxKW6ZGlGDoDf7ixlxe\",\r\n    \"priority\": \"high\",\r\n    \"data\": {\r\n        \"title\": \"" + title + "\",\r\n        \"message\": \"" + message +"\",\r\n        \"postno\": \"" + postno + "\"\r\n    }\r\n}");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n    \"to\": \"" + to + "\",\r\n    \"priority\": \"high\",\r\n    \"data\": {\r\n        \"title\": \"" + title + "\",\r\n        \"message\": \"" + message +"\",\r\n        \"postno\": \"" + postno + "\"\r\n    }\r\n}");
         Request request = new Request.Builder()
                 .url("https://fcm.googleapis.com/fcm/send")
                 .method("POST", body)

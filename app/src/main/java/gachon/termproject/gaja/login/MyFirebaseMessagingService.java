@@ -1,5 +1,6 @@
 package gachon.termproject.gaja.login;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,6 +22,7 @@ import gachon.termproject.gaja.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
+    RandomNumberGenerator rng = new RandomNumberGenerator();
 
     /**
      * Called when message is received.
@@ -36,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
+        if (remoteMessage.getData().size() > 0) { //알림 리스트 추가 여기서 해주세요
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             sendNotificationFromPost(remoteMessage.getData());
             if (/* Check if data needs to be processed by long running job */ true) {
@@ -103,9 +105,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotificationFromPost(Map messagebody){
         if(!messagebody.get("postno").equals("")){
-            Log.d(TAG,"입력됨");
-            messagebody.get("");
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationCompat.Builder builder = null;
 
+            Intent intent = new Intent(this, SplashActivity.class);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                manager.createNotificationChannel(new NotificationChannel(getString(R.string.default_notification_channel_id), getString(R.string.default_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT));
+                builder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id));
+            } else{
+                builder = new NotificationCompat.Builder(this);
+            }
+
+            builder.setContentTitle((String) messagebody.get("title")).setContentText((String) messagebody.get("message") + "글의 인원모집이 완료되었습니다!").setSmallIcon(R.mipmap.ic_launcher).setSound(defaultSoundUri).setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify((int) rng.MT19937_long( (int) System.currentTimeMillis()), notification);
         }
     }
 
