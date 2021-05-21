@@ -7,8 +7,8 @@ import java.io.File;
 public class AutoLoginProvider {
 
     FileIO io = new FileIO();
-    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/logininfo", "login.dat");
-    File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/logininfo");
+    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GAJA", "login.dat");
+    File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GAJA");
     EncryptModule encryptModule = new EncryptModule();
 
     public void AutoLoginWriter(String email, String password) {

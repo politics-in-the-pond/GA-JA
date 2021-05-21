@@ -148,9 +148,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             builder = new NotificationCompat.Builder(this);
                         }
 
-                        builder.setContentTitle((String) messagebody.get("title")).setContentText((String) messagebody.get("message") + "글의 인원모집이 완료되었습니다!").setSmallIcon(R.mipmap.ic_launcher).setSound(defaultSoundUri).setContentIntent(pendingIntent);
+                        builder.setContentTitle("GA-JA").setContentText((String) messagebody.get("title") + " : " +(String) messagebody.get("message") + " 글의 인원모집이 완료되었습니다!").setSmallIcon(R.mipmap.ic_launcher).setSound(defaultSoundUri).setContentIntent(pendingIntent);
                         Notification notification = builder.build();
                         manager.notify((int) rng.MT19937_long(Seed.MakeSeed(messagebody.get("postno").toString())), notification);
+                        AlarmIOProvider alarmIOProvider = new AlarmIOProvider();
+                        alarmIOProvider.AppendAlarm(getString(R.string.alarm) + " " + messagebody.get("title"));
                     }
                 } else{
                     //SendFull(postInfo);

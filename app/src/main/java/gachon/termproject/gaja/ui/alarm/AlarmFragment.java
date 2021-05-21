@@ -19,6 +19,7 @@ import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import gachon.termproject.gaja.R;
+import gachon.termproject.gaja.login.AlarmIOProvider;
 
 public class AlarmFragment extends ListFragment {
 
@@ -35,11 +36,8 @@ public class AlarmFragment extends ListFragment {
 
         // xml의 listview id를 반드시 "@android:id/list"로 해줘야 한다.
         // db에서 제목 끌어다가 저기 넣으면 될듯
-        String[] values = new String[] {
-                getString(R.string.alarm)+" 떡볶이 같이 시켜 ",
-                getString(R.string.alarm)+" 물티슈 나눠 사실 ",
-                getString(R.string.alarm)+" 긱산데 치킨 노나먹어용 "
-        };
+        AlarmIOProvider alarmIOProvider = new AlarmIOProvider();
+        String[] values = alarmIOProvider.ReadAlarm();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 

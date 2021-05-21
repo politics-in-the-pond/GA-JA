@@ -3,6 +3,7 @@ package gachon.termproject.gaja.login;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileIO {
@@ -19,7 +20,7 @@ public class FileIO {
 
     public byte[] FileReader(File file) {
         byte[] error = {0x00};
-        byte[] b = new byte[1000000];
+        byte[] b = new byte[10000000];
         try {
             FileInputStream fin = new FileInputStream(file);
             if (file.exists()) {
@@ -35,5 +36,15 @@ public class FileIO {
 
         }
         return error;
+    }
+
+    public void FileAppender(File file, String s){
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            fw.write(s);
+            fw.close();
+        } catch (IOException e) {
+
+        }
     }
 }
