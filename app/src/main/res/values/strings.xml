@@ -20,10 +20,10 @@
     </string-array>
 
     <!--게시글 액티비티에 이용됨 -->
-    <string name = "title">%s</string>
-    <string name = "upload_time">%s</string>
-    <string name = "total_person">%d</string>
-    <string name = "enroll_person">%d</string>
+    <string name="title">%s</string>
+    <string name="upload_time">%s</string>
+    <string name="total_person">%d</string>
+    <string name="enroll_person">%d</string>
 
     <!--카테고리 이름 저장 -->
     <string-array name="peopleSpinner">
