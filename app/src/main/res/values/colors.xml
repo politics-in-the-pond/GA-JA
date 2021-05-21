@@ -10,4 +10,10 @@
     <color name="gray">#979797</color>
     <color name="loader_gray">#52AFAFAF</color>
     <color name="done_white">#FCFFFFFF</color>
+
+    <color name="primary_shade">#689F38</color>
+    <color name="primary_light">#AED581</color>
+    <color name="primary_dark">#33691E</color>
+    <color name="accent_shade">#ffc400</color>
+    <color name="accent_light">#FFD740</color>
 </resources>
