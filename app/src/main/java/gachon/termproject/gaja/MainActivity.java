@@ -1,7 +1,6 @@
 package gachon.termproject.gaja;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 
@@ -10,10 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import gachon.termproject.gaja.ui.alarm.AlarmFragment;
 import gachon.termproject.gaja.ui.home.HomeFragment;
@@ -34,43 +30,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // manager = getSupportFragmentManager();
-
-       /* fragmentBuy = new BuyFragment();
-        fragmentEat= new EatFragment();
-        fragmentTotal = new TotalFragment();*/
-
-        // ft = manager.beginTransaction();
-
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.nav_host_fragment, homeFragment).commitAllowingStateLoss();
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
 
-        // ft.add(R.id.fragment_container, fragmentTotal).addToBackStack(null).commit();
-
     }
 
-   /* // spinner 이용해서 게시판 바꾸게 되면 fragment 이동
-    public void onButtonClicked(View view) {
-        ft = manager.beginTransaction();
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
-        if(String.valueOf(spinner.getSelectedItem()).equalsIgnoreCase("전체")){
-            ft.replace(R.id.fragment_container, fragmentTotal).commit();
-           // Toast.makeText(this, String.valueOf(spinner.getSelectedItem()), Toast.LENGTH_LONG).show();
-        }
-        else if(String.valueOf(spinner.getSelectedItem()).equalsIgnoreCase("같이 먹어요")){
-            ft.replace(R.id.fragment_container, fragmentEat).commit();
-            //Toast.makeText(this, String.valueOf(spinner.getSelectedItem()), Toast.LENGTH_LONG).show();
-        }
-        else if((String.valueOf(spinner.getSelectedItem()).equalsIgnoreCase("같이 사요"))){
-            ft.replace(R.id.fragment_container, fragmentBuy).commit();
-           // Toast.makeText(this, String.valueOf(spinner.getSelectedItem()), Toast.LENGTH_LONG).show();
-        }
-    }*/
 
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override

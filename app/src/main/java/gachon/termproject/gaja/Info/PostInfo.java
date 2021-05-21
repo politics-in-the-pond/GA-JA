@@ -16,9 +16,12 @@ public class PostInfo implements Serializable {
     private String postId;
     private ArrayList<String> participatingUserId;
     private String category;
+    private Date finishTime;
+    private String talkLink;
 
     public PostInfo(String titleImage, String title, String content, String publisher, String userName,
-                    Date createdAt, long peopleNeed, long currentNumOfPeople, String postId, ArrayList<String> participatingUserId, String category) {
+                    Date createdAt, long peopleNeed, long currentNumOfPeople, String postId,
+                    ArrayList<String> participatingUserId, String category ,Date finishTime,  String talkLink) {
         this.titleImage = titleImage;
         this.title = title;
         this.content = content;
@@ -30,6 +33,8 @@ public class PostInfo implements Serializable {
         this.postId = postId;
         this.participatingUserId = participatingUserId;
         this.category = category;
+        this.finishTime = finishTime;
+        this.talkLink = talkLink;
     }
 
     public String getTitleImage() {
@@ -76,7 +81,7 @@ public class PostInfo implements Serializable {
         return this.createdAt;
     }
 
-    public void setCreatedAt(Date publisher) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -118,6 +123,22 @@ public class PostInfo implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Date getFinishTime() {
+        return this.finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public String getTalkLink() {
+        return this.talkLink;
+    }
+
+    public void setTalkLink(String talkLink) {
+        this.talkLink = talkLink;
     }
 }
 

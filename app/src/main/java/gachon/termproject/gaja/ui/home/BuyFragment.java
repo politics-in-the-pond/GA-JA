@@ -33,6 +33,7 @@ public class BuyFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     //레시피 글을 카드뷰로 띄워주기 위한 리사이클러 뷰 선언
     private RecyclerView buyRecyclerView;
+    View rootView;
 
     public static BuyFragment newInstance(){
         BuyFragment BuyFragment=new BuyFragment();
@@ -44,7 +45,7 @@ public class BuyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_buy, container, false);
+        rootView = inflater.inflate(R.layout.fragment_buy, container, false);
 
         firebaseFirestore= FirebaseFirestore.getInstance();
 
@@ -52,7 +53,6 @@ public class BuyFragment extends Fragment {
         buyRecyclerView = (RecyclerView)rootView.findViewById(R.id.buy_List);
         buyRecyclerView.setHasFixedSize(true);
         buyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
 
         return rootView;
     }
@@ -75,9 +75,10 @@ public class BuyFragment extends Fragment {
                         if (task.isSuccessful()) {
                             //각 게시글의 정보를 가져와 arrayList에 저장.
                             ArrayList<PostInfo> postList = new ArrayList<>();
+                            PostInfo postInfo;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("로그: ", document.getId() + " => " + document.getData());
-                                postList.add(new PostInfo(
+                                postInfo = new PostInfo(
                                         document.getData().get("titleImage").toString(),
                                         document.getData().get("title").toString(),
                                         document.getData().get("content").toString(),
@@ -88,8 +89,20 @@ public class BuyFragment extends Fragment {
                                         (Long) document.getData().get("currentNumOfPeople"),
                                         document.getData().get("postId").toString(),
                                         (ArrayList<String>) document.getData().get("participatingUserId"),
-                                        document.getData().get("category").toString()
-                                ));
+                                        document.getData().get("category").toString(),
+                                        new Date(document.getDate("finishTime").getTime()),
+                                        document.getData().get("talkLink").toString()
+                                        );
+                                long gap = postInfo.getFinishTime().getTime() - new Date().getTime();
+                                if(gap < 0){
+                                    //마감
+                                }
+                                else if(postInfo.getCurrentNumOfPeople() == postInfo.getPeopleNeed()){
+                                    //인원 꽉참
+                                }
+                                else{
+                                    postList.add(postInfo);
+                                }
                             }
 
                             //recipeAdapter를 이용하여 리사이클러 뷰로 내용 띄움.

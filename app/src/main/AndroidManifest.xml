@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gachon.termproject.gaja">
-
+    package="gachon.termproject.gaja" >
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,33 +14,33 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Gaja">
+        android:theme="@style/Theme.Gaja"
+        android:requestLegacyExternalStorage="true">
         <activity android:name=".post.PostInformationActivity" />
-        <activity android:name=".gallery.GalleryActivity" />
+        <activity android:name=".gallery.GalleryActivity"/>
         <activity android:name=".login.LoginActivity" />
-        <activity
-            android:name=".login.LoginBridge"
-            android:theme="@style/Theme.Gaja.NoActionBar" />
-        <activity android:name=".login.RegisterActivity" />
-        <activity
-            android:name=".login.SplashActivity"
-            android:theme="@style/Theme.Gaja.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".login.LoginBridge" />
+        <activity android:name=".login.RegisterActivity"/>
+        <activity android:name=".login.SplashActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name=".ui.writingPost.WritingPostActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".searchResult.searchResultActivity"/>
+        <activity android:name=".ui.writingPost.WritingPostActivity"/>
+        <activity android:name=".MainActivity" >
 
-        <service
-            android:name=".login.MyFirebaseMessagingService"
-            android:exported="false">
+        </activity>
+
+        <service android:name=".login.MyFirebaseMessagingService"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
+
+
 
 </manifest>

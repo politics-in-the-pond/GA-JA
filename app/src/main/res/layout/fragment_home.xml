@@ -7,73 +7,78 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <RelativeLayout
+        android:id="@+id/homeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/writingPostBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </SearchView>
+
+
+        <Button
+            android:id="@+id/writingPostBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"></SearchView>
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:text="글쓰기"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="20dp"
+            />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/searchView">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/total_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/eat_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="같이 먹어요" />
+    </RelativeLayout>
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/neccesity_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="같이 사요" />
 
-        </com.google.android.material.tabs.TabLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ScrollView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/homeLayout"
+        tools:layout_editor_absoluteX="0dp">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/share_need_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </ScrollView>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/total_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/writingPostBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="70dp"
-        android:clickable="true"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/eat_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="같이 먹어요" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/neccesity_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="같이 사요" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/share_need_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="60dp"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_post_add_24" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

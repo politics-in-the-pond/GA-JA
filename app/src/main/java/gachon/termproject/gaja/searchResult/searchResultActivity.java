@@ -1,22 +1,14 @@
-package gachon.termproject.gaja.ui.home;
+package gachon.termproject.gaja.searchResult;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,63 +21,49 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import gachon.termproject.gaja.Info.PostInfo;
-import gachon.termproject.gaja.adapter.postAdapter;
-import gachon.termproject.gaja.post.PostInformationActivity;
 import gachon.termproject.gaja.R;
+import gachon.termproject.gaja.adapter.SearchAdapter;
+public class searchResultActivity extends AppCompatActivity{
 
-public class EatFragment extends Fragment {
-    //파이어베이스 선언
-    private FirebaseFirestore firebaseFirestore;
-    //레시피 글을 카드뷰로 띄워주기 위한 리사이클러 뷰 선언
-    private RecyclerView eatRecyclerView;
-
-    View rootView;
-
-    public static EatFragment newInstance(){
-        EatFragment EatFragment=new EatFragment();
-        return EatFragment;
-    }
+    private String TAG = "검색결과화면";
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<PostInfo> arrayList;
+    private FirebaseFirestore database;
+    private CollectionReference collectionReference ;
+    private String search_content;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_eat, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_search_result);
 
+        search_content = (String) getIntent().getSerializableExtra("Query");
+        Log.d(TAG, "" + search_content);
 
-        firebaseFirestore= FirebaseFirestore.getInstance();
+        recyclerView = (RecyclerView) findViewById(R.id.searchRecyclerView);
+        recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존성능 강화
+        layoutManager = new GridLayoutManager(searchResultActivity.this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>(); // User 객체를 담을 어레이 리스트 (어댑터쪽으로)
 
-        //리사이클러뷰 작성
-        eatRecyclerView = (RecyclerView)rootView.findViewById(R.id.eat_List);
-        eatRecyclerView.setHasFixedSize(true);
-        eatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        database = FirebaseFirestore.getInstance(); //데이터베이스 선언 // 파이어베이스 데이터베이스 연동
+        collectionReference = database.collection("posts"); // DB 테이블 연결
+        Log.d(TAG, "검색 시작");
 
-
-        return rootView;
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        //recipePost에 있는 data를 가져오기 위함.
-        CollectionReference collectionReference = firebaseFirestore.collection("posts");
         collectionReference
-                //레시피 중 음료류 카테고리만 가져오기 위함.
-                .whereEqualTo("category", "같이 먹어요")
-                //추천 높은 순으로 정렬
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            //각 게시글의 정보를 가져와 arrayList에 저장.
-                            ArrayList<PostInfo> postList = new ArrayList<>();
-                            PostInfo postInfo;
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("로그: ", document.getId() + " => " + document.getData());
-                                postInfo = new PostInfo(
+                                PostInfo postInfo = new PostInfo(
                                         document.getData().get("titleImage").toString(),
                                         document.getData().get("title").toString(),
                                         document.getData().get("content").toString(),
@@ -100,29 +78,31 @@ public class EatFragment extends Fragment {
                                         new Date(document.getDate("finishTime").getTime()),
                                         document.getData().get("talkLink").toString()
                                 );
+
                                 long gap = postInfo.getFinishTime().getTime() - new Date().getTime();
-                                if(gap < 0){
+                                if (gap < 0) {
                                     //마감
-                                }
-                                else if(postInfo.getCurrentNumOfPeople() == postInfo.getPeopleNeed()){
+                                } else if (postInfo.getCurrentNumOfPeople() == postInfo.getPeopleNeed()) {
                                     //인원 꽉참
-                                }
-                                else{
-                                    postList.add(postInfo);
+                                } else {
+                                    if (postInfo.getTitle().contains(search_content)) {
+                                        arrayList.add(postInfo);
+                                    }
                                 }
                             }
+                            Log.d(TAG, "검색 중");
+                            adapter = new SearchAdapter(searchResultActivity.this, arrayList);
+                            recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
 
-                            //recipeAdapter를 이용하여 리사이클러 뷰로 내용 띄움.
-                            RecyclerView.Adapter mAdapter = new postAdapter(getActivity(), postList);
-                            eatRecyclerView.setAdapter(mAdapter);
                         } else {
                             Log.d("로그: ", "Error getting documents: ", task.getException());
 
                         }
                     }
                 });
+
+        Log.d(TAG, "검색 끝");
+
     }
-
-
 
 }

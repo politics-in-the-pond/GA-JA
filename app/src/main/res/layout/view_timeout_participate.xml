@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timeOutLayout_another"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/done_white">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="매칭 실패!"
+        android:textColor="@color/black"
+        android:layout_marginTop="270dp"
+        android:textSize="40sp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마감 시간 내에 인원이 모이지 않았어요."
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
+
+    <Button
+        android:id="@+id/goBackBtn_timeOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="뒤로 가기"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

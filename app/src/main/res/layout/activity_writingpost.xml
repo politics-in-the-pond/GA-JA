@@ -16,129 +16,188 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="게시물 등록"
-            android:textSize="20sp">
-        </TextView>
-
+            android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
+
     <ScrollView
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="15dp">
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/editTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ems="10"
-                android:hint="제목을 입력해주세요!"
-                android:inputType="text" />
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@mipmap/ic_launcher"/>
-
-            <EditText
-                android:id="@+id/editContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="내용을 입력해주세요!"
-                android:inputType="text" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="공구하는 제품, 음식 구매페이지를 캡쳐해서 넣어주세요"/>
-
-            <ImageButton
-                android:id="@+id/addTitleImageBtn"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/ic_baseline_image_24" />
-
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="15dp"
                 android:orientation="vertical">
 
-                <TableLayout
+                <EditText
+                    android:id="@+id/editTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="제목을 입력해주세요!"
+                    android:inputType="text"
+                    android:singleLine="true" />
+
+
+                <EditText
+                    android:id="@+id/editContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="내용을 입력해주세요!"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="공구하는 제품, 음식 구매페이지를 캡쳐해서 넣어주세요" />
+
+                <ImageButton
+                    android:id="@+id/addTitleImageBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:srcCompat="@drawable/ic_baseline_image_24" />
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:stretchColumns="*">
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="vertical">
 
-                    <TableRow
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="최소 인원수"/>
+                            android:text="최소 인원수" />
 
                         <Spinner
                             android:id="@+id/numberOfPeopleSpinner"
-                            android:layout_width="match_parent"
+                            android:layout_width="230dp"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:entries="@array/peopleSpinner" />
 
+                    </RelativeLayout>
 
-                    </TableRow>
-
-                    <TableRow
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="카테고리"/>
+                            android:text="카테고리" />
 
                         <Spinner
                             android:id="@+id/categorySpinner"
-                            android:layout_width="match_parent"
+                            android:layout_width="230dp"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:entries="@array/categorySpinner" />
-                    </TableRow>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="오픈채팅 링크" />
+
+                        <EditText
+                            android:id="@+id/openchat_link"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="open chat link를 입력하세요"
+                            android:singleLine="true"
+                            android:textSize="15dp" />
+                    </LinearLayout>
 
 
-                </TableLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="마감 기한" />
+
+                        <TextView
+                            android:id="@+id/finishDate_Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="마감 날짜를 입력하세요"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/finishTime_Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="마감 시간을 입력하세요"
+                            android:textSize="17sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="20dp">
+
+                    <Button
+                        android:id="@+id/confirmBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:text="작성"
+                         />
+
+                    <Button
+                        android:id="@+id/goBackBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:text="취소"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/confirmBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:text="작성"
-            app:backgroundTint="@color/black" />
-
-        <Button
-            android:id="@+id/goBackBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:text="취소"
-            app:backgroundTint="@color/black" />
-    </LinearLayout>
 
     <include
         layout="@layout/view_loader"
