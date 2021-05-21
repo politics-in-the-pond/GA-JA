@@ -13,12 +13,18 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
+import gachon.termproject.gaja.Info.PostInfo;
 import gachon.termproject.gaja.R;
+import gachon.termproject.gaja.post.PostInformationActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
@@ -105,23 +111,51 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotificationFromPost(Map messagebody){
         if(!messagebody.get("postno").equals("")){
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NotificationCompat.Builder builder = null;
 
-            Intent intent = new Intent(this, SplashActivity.class);
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                manager.createNotificationChannel(new NotificationChannel(getString(R.string.default_notification_channel_id), getString(R.string.default_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT));
-                builder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id));
-            } else{
-                builder = new NotificationCompat.Builder(this);
-            }
+            firebaseFirestore.collection("posts").document(messagebody.get("postno").toString()).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    NotificationCompat.Builder builder = null;
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        PostInfo postInfo = new PostInfo(
+                                document.getData().get("titleImage").toString(),
+                                document.getData().get("title").toString(),
+                                document.getData().get("content").toString(),
+                                document.getData().get("publisher").toString(),
+                                document.getData().get("userName").toString(),
+                                new Date(document.getDate("createdAt").getTime()),
+                                (Long) document.getData().get("peopleNeed"),
+                                (Long) document.getData().get("currentNumOfPeople"),
+                                document.getData().get("postId").toString(),
+                                (ArrayList<String>) document.getData().get("participatingUserId"),
+                                document.getData().get("category").toString(),
+                                new Date(document.getDate("finishTime").getTime()),
+                                document.getData().get("talkLink").toString()
+                        );
 
-            builder.setContentTitle((String) messagebody.get("title")).setContentText((String) messagebody.get("message") + "글의 인원모집이 완료되었습니다!").setSmallIcon(R.mipmap.ic_launcher).setSound(defaultSoundUri).setContentIntent(pendingIntent);
-            Notification notification = builder.build();
-            manager.notify((int) rng.MT19937_long( (int) System.currentTimeMillis()), notification);
+                        Intent intent = new Intent(this, PostInformationActivity.class);
+                        intent.putExtra("PostInfo",postInfo);
+                        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                            manager.createNotificationChannel(new NotificationChannel(getString(R.string.default_notification_channel_id), getString(R.string.default_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT));
+                            builder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id));
+                        } else{
+                            builder = new NotificationCompat.Builder(this);
+                        }
+
+                        builder.setContentTitle((String) messagebody.get("title")).setContentText((String) messagebody.get("message") + "글의 인원모집이 완료되었습니다!").setSmallIcon(R.mipmap.ic_launcher).setSound(defaultSoundUri).setContentIntent(pendingIntent);
+                        Notification notification = builder.build();
+                        manager.notify((int) rng.MT19937_long(Seed.MakeSeed(messagebody.get("postno").toString())), notification);
+                    }
+                } else{
+                    //SendFull(postInfo);
+                }
+            });
         }
     }
 

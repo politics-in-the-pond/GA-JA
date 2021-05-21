@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ import gachon.termproject.gaja.R;
 import gachon.termproject.gaja.adapter.postAdapter;
 import gachon.termproject.gaja.adapter.post_mypage_Adapter;
 import gachon.termproject.gaja.listener.OnPostListener;
+import gachon.termproject.gaja.login.RandomNumberGenerator;
+import gachon.termproject.gaja.login.Seed;
 import gachon.termproject.gaja.login.SendMessage;
 
 import static gachon.termproject.gaja.Util.isStorageUrl;
@@ -144,6 +147,10 @@ public class PostInformationActivity extends AppCompatActivity {
         postInfo = (PostInfo) getIntent().getSerializableExtra("PostInfo");
         //추천한 유저 명단
         ArrayList<String> participatingUser = postInfo.getParticipatingUserId();
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        RandomNumberGenerator rng = new RandomNumberGenerator();
+        manager.cancel((int) rng.MT19937_long(Seed.MakeSeed(postInfo.getPostId())));
 
         long gap = postInfo.getFinishTime().getTime() - new Date().getTime();
         if(gap < 0){
