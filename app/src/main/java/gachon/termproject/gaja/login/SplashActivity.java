@@ -24,12 +24,10 @@ public class SplashActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     Intent loginIntent;
     AutoLoginProvider autoLoginProvider;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_autologin);
-
         loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         autoLoginProvider = new AutoLoginProvider();
         mAuth = FirebaseAuth.getInstance();
@@ -67,4 +65,6 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
