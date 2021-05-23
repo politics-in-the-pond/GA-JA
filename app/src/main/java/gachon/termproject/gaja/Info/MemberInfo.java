@@ -4,16 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MemberInfo implements Serializable {
-    String id;
-    String nickName;
-    ArrayList<String> participatingPost;
-    String FCMtoken;
+    private String id;
+    private String nickName;
+    private ArrayList<String> participatingPost;
+    private String FCMtoken;
+    private ArrayList<String> alarmPost;
 
-    public MemberInfo(String id, String nickName, ArrayList<String> participatingPost, String FCMtoken) {
+
+    public MemberInfo(String id, String nickName, ArrayList<String> participatingPost, String FCMtoken,  ArrayList<String> alarmPost) {
         this.id = id;
         this.nickName = nickName;
         this.participatingPost = participatingPost;
         this.FCMtoken = FCMtoken;
+        this.alarmPost = alarmPost;
     }
 
     public String getId() {
@@ -46,5 +49,13 @@ public class MemberInfo implements Serializable {
 
     public void setFCMtoken(String id) {
         this.FCMtoken = FCMtoken;
+    }
+
+    public ArrayList<String> getAlarmPost() {
+        return this.alarmPost;
+    }
+
+    public void setAlarmPost(ArrayList<String> alarmPost) {
+        this.alarmPost = alarmPost;
     }
 }

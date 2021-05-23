@@ -265,8 +265,18 @@ public class PostInformationActivity extends AppCompatActivity {
                                         new Date(document.getDate("finishTime").getTime()),
                                         document.getData().get("talkLink").toString()
                                 );
+
                                 if(!(anotherPostInfo.getPostId().equals(postInfo.getPostId()))){
-                                    postList.add(anotherPostInfo);
+                                    long gap = anotherPostInfo.getFinishTime().getTime() - new Date().getTime();
+                                    if(gap < 0){
+                                        //마감
+                                    }
+                                    else if(anotherPostInfo.getCurrentNumOfPeople() == anotherPostInfo.getPeopleNeed()){
+                                        //인원 꽉참
+                                    }
+                                    else{
+                                        postList.add(anotherPostInfo);
+                                    }
                                 }
                             }
 
@@ -304,8 +314,9 @@ public class PostInformationActivity extends AppCompatActivity {
                                                     document.getData().get("id").toString(),
                                                     document.getData().get("nickName").toString(),
                                                     (ArrayList<String>) document.getData().get("participatingPost"),
-                                                    document.getData().get("fcmtoken").toString()
-                                            );
+                                                    document.getData().get("fcmtoken").toString(),
+                                                    (ArrayList<String>) document.getData().get("alarmPost")
+                                                    );
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                             if(memberInfo.getParticipatingPost()==null){
                                                 participatingPost.add(id);
@@ -435,7 +446,8 @@ public class PostInformationActivity extends AppCompatActivity {
                                                 document.getData().get("id").toString(),
                                                 document.getData().get("nickName").toString(),
                                                 (ArrayList<String>) document.getData().get("participatingPost"),
-                                                document.getData().get("fcmtoken").toString()
+                                                document.getData().get("fcmtoken").toString(),
+                                                (ArrayList<String>) document.getData().get("alarmPost")
                                         );
                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                         //recipepostinfo 형식으로 저장.

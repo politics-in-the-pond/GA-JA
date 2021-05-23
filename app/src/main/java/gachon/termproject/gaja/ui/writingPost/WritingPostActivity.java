@@ -346,7 +346,8 @@ public class WritingPostActivity extends AppCompatActivity {
                                                                 document.getData().get("id").toString(),
                                                                 document.getData().get("nickName").toString(),
                                                                 (ArrayList<String>) document.getData().get("participatingPost"),
-                                                                document.getData().get("fcmtoken").toString()
+                                                                document.getData().get("fcmtoken").toString(),
+                                                                (ArrayList<String>) document.getData().get("alarmPost")
                                                         );
                                                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                         DocumentReference documentReference = firebaseFirestore.collection("posts").document();

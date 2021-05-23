@@ -1,4 +1,3 @@
-
 package gachon.termproject.gaja.ui.alarm;
 
 import android.content.Intent;
@@ -49,7 +48,7 @@ public class AlarmFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id){
         String strText = (String) l.getItemAtPosition(position);
         Log.d("Fragment: ", position + ": " +strText);
-        Toast.makeText(this.getContext(), "클릭: " + position +" " + strText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(), " " + strText, Toast.LENGTH_SHORT).show();
     }
 
 }

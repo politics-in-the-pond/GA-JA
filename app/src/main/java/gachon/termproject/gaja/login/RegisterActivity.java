@@ -96,7 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
                             user.updateEmail(email);
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             ArrayList<String> participatingPost = new ArrayList<>();
-                            MemberInfo memberInfo = new MemberInfo(user.getUid(),nickName.getText().toString(),participatingPost,"");
+                            ArrayList<String> alarmPost = new ArrayList<>();
+                            MemberInfo memberInfo = new MemberInfo(user.getUid(),nickName.getText().toString(),participatingPost,"", alarmPost);
                             db.collection("users").document(user.getUid()).set(memberInfo)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
