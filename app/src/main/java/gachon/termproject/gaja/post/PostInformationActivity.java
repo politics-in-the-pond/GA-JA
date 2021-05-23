@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -402,6 +405,25 @@ public class PostInformationActivity extends AppCompatActivity {
                     }
 
                 case R.id.btn_report:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PostInformationActivity.this);
+                    final EditText editText = new EditText(PostInformationActivity.this);
+                    builder.setTitle("신고 사유를 적어주십시오 ");
+                    builder.setView(editText);
+
+                    builder.setPositiveButton("제출", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.show();
                     break;
 
                 case R.id.goBackBtn_doneLayout:
