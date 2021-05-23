@@ -3,6 +3,7 @@ package gachon.termproject.gaja.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,7 +63,9 @@ public class LoginBridge extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        Toast.makeText(getApplicationContext(), "유저 정보에 문제가 있습니다. 관리지에게 문의 해주세요.", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                        finish();
                                     }
                                 });
                     }
