@@ -16,7 +16,7 @@ This is an android application for connecting people that want sharing & purchas
 - 푸시알림
 - 회원가입
 - 로그인
-- 회원정보 
+- 회원정보 암호화
 - 글 업로드
 - 인원모집
 
