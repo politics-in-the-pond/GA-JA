@@ -11,8 +11,6 @@ But, in the case of
 
 This is an android application for connecting people that want sharing & purchasing service
 
-Main functions are as follows.
-1. Matching - It connects people who want to buy goods or food together.
 
 ## Main functions
 - 푸시알림
