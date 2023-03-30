@@ -20,7 +20,6 @@ Main functions are as follows.
 - 로그인
 - 글 업로드
 - 인원모집
-- 회원정보 변경
 
 
 ## Development Environment
