@@ -42,3 +42,21 @@ my page 1           |  my page 2    |  matching fail  | matching success
 * [김수현] @catsaveearth
 * [김수빈] @subinga18
 
+
+## Presentation document
+![SE_proposal_pdf-02](https://user-images.githubusercontent.com/74289147/228924210-cc486780-001e-4cc0-9cf3-1e8056a7cc39.png)
+![SE_proposal_pdf-03](https://user-images.githubusercontent.com/74289147/228924227-5f269d38-afb7-4f1f-91b1-d426e1722184.png)
+![SE_proposal_pdf-04](https://user-images.githubusercontent.com/74289147/228924245-22313239-cc75-47db-b7f9-3d57653242e5.png)
+![SE_proposal_pdf-05](https://user-images.githubusercontent.com/74289147/228924253-382286d8-1077-4bbe-9486-5cd09f22b549.png)
+![SE_proposal_pdf-06](https://user-images.githubusercontent.com/74289147/228924276-4c973d4c-ebf7-4e5f-83a7-88339764ce9a.png)
+![SE_proposal_pdf-07](https://user-images.githubusercontent.com/74289147/228924291-c00aca85-9ff2-4985-8c37-14556bef414d.png)
+![SE_proposal_pdf-08](https://user-images.githubusercontent.com/74289147/228924293-7eb81c14-bc4e-405f-8152-fd45a04dfd66.png)
+![SE_proposal_pdf-09](https://user-images.githubusercontent.com/74289147/228924296-b09a5ba8-0d2f-4be1-89ba-a77043fa3dc3.png)
+![SE_proposal_pdf-10](https://user-images.githubusercontent.com/74289147/228924298-298418a3-07b1-441f-8dad-a64d473bf972.png)
+![SE_proposal_pdf-11](https://user-images.githubusercontent.com/74289147/228924302-0604acbb-fa98-4b23-a836-dc61a078f2d8.png)
+![SE_proposal_pdf-12](https://user-images.githubusercontent.com/74289147/228924307-b9fdeab0-73ca-41a8-8041-d0628bcf55ff.png)
+![SE_proposal_pdf-13](https://user-images.githubusercontent.com/74289147/228924311-d2b62e2f-db58-46c9-9d90-e529583b4a6d.png)
+![SE_proposal_pdf-14](https://user-images.githubusercontent.com/74289147/228924314-78d0c3f3-bdfc-4b3a-9dfa-0417309b35bd.png)
+![SE_proposal_pdf-15](https://user-images.githubusercontent.com/74289147/228924318-d84e12d8-6231-4470-8c89-ff653cdd5b4c.png)
+
+
