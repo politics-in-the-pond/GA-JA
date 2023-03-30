@@ -14,6 +14,14 @@ This is an android application for connecting people that want sharing & purchas
 Main functions are as follows.
 1. Matching - It connects people who want to buy goods or food together.
 
+## Main functions
+- 푸시알림
+- 회원가입
+- 로그인
+- 글 업로드
+- 인원모집
+- 회원정보 변경
+
 
 ## Development Environment
 - Firebase : Authentication & Firestore database & Storage
